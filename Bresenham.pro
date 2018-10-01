@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-09-26T15:30:03
+# Project created by QtCreator 2018-09-29T23:41:04
 #
 #-------------------------------------------------
 
@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    canvas.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    canvas.h
+
+FORMS += \
+        mainwindow.ui \
+    canvas.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

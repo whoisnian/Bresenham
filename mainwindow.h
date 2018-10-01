@@ -1,24 +1,43 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QtGui>
+#include <QMainWindow>
 
-class MainWindow : public QWindow
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
-public:
-    MainWindow(QWindow *parent = 0);
-    void renderNow();
 
-protected:
-    void exposeEvent(QExposeEvent *event) override;
-    void resizeEvent(QResizeEvent *event) override;
+public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void on_pushButton_line_1_clicked();
+
+    void on_pushButton_line_2_clicked();
+
+    void on_pushButton_circle_1_clicked();
+
+    void on_pushButton_circle_2_clicked();
+
+    void on_pushButton_ellipse_1_clicked();
+
+    void on_pushButton_ellipse_2_clicked();
+
+    void on_pushButton_parabola_1_clicked();
+
+    void on_pushButton_parabola_2_clicked();
+
+    void on_pushButton_sin_1_clicked();
+
+    void on_pushButton_sin_2_clicked();
 
 private:
-    QBackingStore *m_backingStore;
-    int unit;
+    Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
