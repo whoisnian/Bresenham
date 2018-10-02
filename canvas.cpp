@@ -124,7 +124,7 @@ void Canvas::originEllipse(int a, int b, QPainter *p)
     double res = b;
     for(x = 0;b*b*x <= a*a*res;x++)
     {
-        res = sqrt((a*a*b*b-b*b*x*x)/a/a);
+        res = sqrt((a*a*b*b-b*b*x*x)*1.0/a/a);
         if(abs(res-int(res)) <= 0.5)
             y = int(res);
         else
@@ -136,7 +136,7 @@ void Canvas::originEllipse(int a, int b, QPainter *p)
     }
     for(;y >= 0;y--)
     {
-        res = sqrt((a*a*b*b-a*a*y*y)/b/b);
+        res = sqrt((a*a*b*b-a*a*y*y)*1.0/b/b);
         if(abs(res-int(res)) <= 0.5)
             x = int(res);
         else
@@ -193,7 +193,7 @@ void Canvas::originParabola(int a, int h, QPainter *p)
     double res = 0;
     for(x = 0;2*x <= a;x++)
     {
-        res = x*x/a;
+        res = x*x*1.0/a;
         if(abs(res-int(res)) <= 0.5)
             y = int(res);
         else
@@ -203,7 +203,7 @@ void Canvas::originParabola(int a, int h, QPainter *p)
     }
     for(;y <= h;y++)
     {
-        res = sqrt(y*a);
+        res = sqrt(y*a*1.0);
         if(abs(res-int(res)) <= 0.5)
             x = int(res);
         else
