@@ -16,12 +16,27 @@ public:
     explicit Canvas(QWidget *parent = nullptr);
     ~Canvas();
 
+    // 设定主程序状态栏
     void setBar(QStatusBar *bar);
+    // 设定绘图方式
     void setType(int t);
 
 private:
     Ui::Canvas *ui;
     QStatusBar *statusbar;
+    // 直接计算时图像颜色
+    QColor originColor;
+    // 算法优化时图像颜色
+    QColor bresenhamColor;
+    // 用于计算鼠标拖动时的偏移量
+    int oriX, oriY, nowX, nowY, centerX, centerY;
+    // 单元格大小
+    int unit;
+    // 鼠标拖动中
+    bool tran;
+    // 需要计算绘图时间
+    bool calcTime;
+    // 绘图方式
     int type;
     /*
      *  type number
@@ -52,6 +67,10 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 };
 
 #endif // CANVAS_H
