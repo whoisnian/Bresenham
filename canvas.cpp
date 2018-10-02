@@ -323,7 +323,7 @@ void Canvas::paintEvent(QPaintEvent *)
     painter.setPen(Qt::white);
     painter.drawLine(0, i/2+centerY+(i/unit%2==0?unit/2:0), width(), i/2+centerY+(i/unit%2==0?unit/2:0));
     painter.drawLine(j/2+centerX+(j/unit%2==0?unit/2:0), 0, j/2+centerX+(j/unit%2==0?unit/2:0), height());
-    painter.translate(j/2+centerX+(j/unit%2==0?unit:unit/2), i/2+centerY-(i/unit%2==0?0:unit/2));
+    painter.translate(j/2+centerX-(j/unit%2==0?0:unit/2), i/2+centerY+(i/unit%2==0?unit:unit/2));
     painter.scale(unit, -unit);
 
     // 根据选项绘图
@@ -434,8 +434,6 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
             centerY += nowY-oriY;
         oriX = event->pos().x();
         oriY = event->pos().y();
-        qDebug() << "now" << nowX << nowY;
-        qDebug() << "cen" << centerX << centerY;
         this->update();
     }
 }
