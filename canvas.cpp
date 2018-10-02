@@ -428,10 +428,14 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
     {
         nowX = event->pos().x();
         nowY = event->pos().y();
-        centerX += nowX-oriX;
-        centerY += nowY-oriY;
+        if(abs(centerX + nowX-oriX) <= (unit-1)*(250))
+            centerX += nowX-oriX;
+        if(abs(centerY + nowY-oriY) <= (unit-1)*(250))
+            centerY += nowY-oriY;
         oriX = event->pos().x();
         oriY = event->pos().y();
+        qDebug() << "now" << nowX << nowY;
+        qDebug() << "cen" << centerX << centerY;
         this->update();
     }
 }
@@ -446,5 +450,9 @@ void Canvas::wheelEvent(QWheelEvent *event)
     {
         unit -= 1;
     }
+    centerX = qMax(centerX, -(unit-1)*(250));
+    centerX = qMin(centerX, (unit-1)*(250));
+    centerY = qMax(centerY, -(unit-1)*(250));
+    centerY = qMin(centerY, (unit-1)*(250));
     this->update();
 }
