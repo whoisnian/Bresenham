@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include <QtDebug>
 #include <cmath>
+#include <algorithm>
 
 Canvas::Canvas(QWidget *parent) :
     QWidget(parent),
@@ -328,86 +329,66 @@ void Canvas::paintEvent(QPaintEvent *)
     // 根据选项绘图
     clock_t t1 = 0, t2 = 0;
     int times;
+
+    // 多次重复绘图求耗费时间
+    long long cost[10000], cnt = 0;
     if(calcTime)
-        times = 100000;
+        times = 10000;
     else
         times = 1;
-    switch(type)
+    for(int i = 0;i < times;i++)
     {
-    // y=0.2x+10 即从(-250, -40)到(250, 60)
-    case 1:
         t1 = clock();
-        for(int i = 0;i < times;i++)
+        switch(type)
+        {
+        // y=0.2x+10 即从(-250, -40)到(250, 60)
+        case 1:
             this->originLine(-250, -40, 250, 60, &painter);
-        t2 = clock();
-        break;
-    case 2:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        case 2:
             this->bresenhamLine(-250, -40, 250, 60, &painter);
-        t2 = clock();
-        break;
-    // x^2+y^2=50^2
-    case 3:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        // x^2+y^2=50^2
+        case 3:
             this->originCircle(50, &painter);
-        t2 = clock();
-        break;
-    case 4:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        case 4:
             this->bresenhamCircle(50, &painter);
-        t2 = clock();
-        break;
-    // x^2/50^2+y^2/20^2=1
-    case 5:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        // x^2/50^2+y^2/20^2=1
+        case 5:
             this->originEllipse(50, 20, &painter);
-        t2 = clock();
-        break;
-    case 6:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        case 6:
             this->bresenhamEllipse(50, 20, &painter);
-        t2 = clock();
-        break;
-    // y=x^2/16
-    case 7:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        // y=x^2/16
+        case 7:
             this->originParabola(16, 250, &painter);
-        t2 = clock();
-        break;
-    case 8:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        case 8:
             this->bresenhamParabola(16, 250, &painter);
-        t2 = clock();
-        break;
-    // y=16sin(x/16)
-    case 9:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        // y=16sin(x/16)
+        case 9:
             this->originSin(16, 250, &painter);
-        t2 = clock();
-        break;
-    case 10:
-        t1 = clock();
-        for(int i = 0;i < times;i++)
+            break;
+        case 10:
             this->bresenhamSin(16, 250, &painter);
+            break;
+        default:
+            type = 0;
+        }
         t2 = clock();
-        break;
-    default:
-        type = 0;
+        cost[cnt++] = t2-t1;
     }
     painter.end();
 
     if(type != 0&&calcTime)
     {
+        std::nth_element(cost, cost+cnt/2, cost+cnt);
         statusbar->clearMessage();
-        statusbar->showMessage(QString("平均耗时：") + QString::number(1.0*(t2-t1)*1000/times/CLOCKS_PER_SEC) + QString(" ms"), 5000);
+        statusbar->showMessage(QString("平均耗时：") + QString::number(1.0*cost[cnt/2]*1000/CLOCKS_PER_SEC) + QString(" ms"), 5000);
     }
     calcTime = false;
 }
@@ -457,7 +438,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *event)
 
 void Canvas::wheelEvent(QWheelEvent *event)
 {
-    if(event->delta() > 0&&unit < 10)
+    if(event->delta() > 0&&unit < 16)
     {
         unit += 1;
     }
