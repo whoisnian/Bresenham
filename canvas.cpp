@@ -97,7 +97,7 @@ void Canvas::originCircle(int r, QPainter *p)
 
 void Canvas::bresenhamCircle(int r, QPainter *p)
 {
-    int x = 0, y = r, d = 3 - 2 * r;
+    int x = 0, y = r, d = 5 - 4 * r;
     for(;x < y;x++)
     {
         p->fillRect(x, y, 1, 1, bresenhamColor);
@@ -109,10 +109,10 @@ void Canvas::bresenhamCircle(int r, QPainter *p)
         p->fillRect(-y, x, 1, 1, bresenhamColor);
         p->fillRect(-y, -x, 1, 1, bresenhamColor);
         if(d < 0)
-            d = d + 4 * x + 6;
+            d = d + 8 * x + 12;
         else
         {
-            d = d + 4 * (x - y) + 10;
+            d = d + 8 * (x - y) + 20;
             y--;
         }
     }
